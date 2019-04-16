@@ -1,13 +1,13 @@
 #!/bin/bash
 set -e
 
-if [[ -n "$(docker ps -qaf 'name=parsec-docker')" ]]; then
-    docker restart parsec-docker
+if [[ -n "$(docker ps -qaf 'name=parsec-docker-arm')" ]]; then
+    docker restart parsec-docker-arm
 else
     USER_UID=$(id -u)
     USER_GID=$(id -g)
 
-    docker run --rm --name parsec-docker \
+    docker run --rm --name parsec-docker-arm \
         -e USER_UID=${USER_UID} \
         -e USER_GID=${USER_GID} \
         -e DISPLAY=unix${DISPLAY} \
@@ -15,5 +15,5 @@ else
         -v /run/user/${USER_UID}/pulse:/run/pulse:ro \
         --mount source=parsec_home,target=/home/parsec \
         --device=/dev/dri \
-        jaybrueder/parsec-docker
+        jaybrueder/parsec-docker-arm
 fi
